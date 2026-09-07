@@ -62,7 +62,7 @@ It combines authenticated inventory and supplier management with stock monitorin
 
 ## Live Frontend
 
-[Open PartsPilot](https://inventory-management-system-iris408.vercel.app/)
+[Open PartsPilot](https://partspilot.uk)
 
 > The frontend is deployed on Vercel. Public backend deployment is currently pending.
 
