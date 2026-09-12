@@ -61,3 +61,22 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="User not found")
 
     return db_user
+
+# =========================================
+# EN: Block write operations for demo users
+# JP: デモユーザーの書き込み操作を禁止
+#
+# Demo users can explore production data,
+# but cannot create, update, or delete it.
+# =========================================
+
+def require_write_access(
+    current_user: User = Depends(get_current_user)
+) -> User:
+    if current_user.role == "demo":
+        raise HTTPException(
+            status_code=403,
+            detail="Demo account is read-only"
+        )
+
+    return current_user

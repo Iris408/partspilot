@@ -6,7 +6,10 @@ from app.database import get_db
 from app.models.item_model import Item
 from app.models.user_model import User
 from app.schemas.item_schema import ItemCreate, ItemResponse
-from app.services.auth_service import get_current_user
+from app.services.auth_service import (
+    get_current_user,
+    require_write_access,
+)
 
 router = APIRouter()
 
@@ -331,7 +334,7 @@ def get_item(
 def create_item(
     item: ItemCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(require_write_access)
 ):
     existing_item = db.query(Item).filter(
         Item.sku == item.sku
@@ -364,7 +367,7 @@ def update_item(
     item_id: int,
     item_data: ItemCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(require_write_access)
 ):
     item = db.query(Item).filter(
         Item.id == item_id
@@ -404,7 +407,7 @@ def update_item(
 def delete_item(
     item_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(require_write_access)
 ):
     item = db.query(Item).filter(
         Item.id == item_id

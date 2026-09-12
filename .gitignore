@@ -41,3 +41,4 @@ CONTAINER_ISSUE_RECAP.md
 # JP: ローカルデータベースのエクスポートとスナップショット
 partspilot_inventory_export.json
 backend/database/snapshots/
+partspilot_suppliers_export.json

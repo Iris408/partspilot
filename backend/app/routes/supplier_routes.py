@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.services.auth_service import get_current_user
+from app.services.auth_service import (
+    get_current_user,
+    require_write_access,
+)
+
 from app.database import get_db
 from app.models.supplier_model import Supplier
 from app.schemas.supplier_schema import (
@@ -24,7 +28,7 @@ router = APIRouter(
 def create_supplier(
     supplier: SupplierCreate,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user)
+    current_user=Depends(require_write_access)
 ):
     db_supplier = Supplier(
         name=supplier.name,
@@ -90,7 +94,7 @@ def update_supplier(
     supplier_id: int,
     supplier: SupplierUpdate,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user)
+    current_user=Depends(require_write_access)
 ):
     db_supplier = (
         db.query(Supplier)
@@ -124,7 +128,7 @@ def update_supplier(
 def delete_supplier(
     supplier_id: int,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user)
+    current_user=Depends(require_write_access)
 ):
     supplier = (
         db.query(Supplier)
