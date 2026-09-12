@@ -2,8 +2,6 @@ const API_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:8001"
 ).replace(/\/+$/, "")
 
-console.log("PartsPilot API URL:", API_URL)
-
 export const LOGIN_URL = `${API_URL}/auth/login`
 
 export function getAuthHeaders(): HeadersInit {
