@@ -37,6 +37,7 @@ logs/
 # JP: ローカル用の復習メモ
 CONTAINER_ISSUE_RECAP.md
 
-# EN: Ignore files that are not needed for the project
-# JP: プロジェクトに不要なファイルを無視する
-backend/database/snapshots/partspilot_inventory_export.json
+# EN: Local database exports and snapshots
+# JP: ローカルデータベースのエクスポートとスナップショット
+partspilot_inventory_export.json
+backend/database/snapshots/
