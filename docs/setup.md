@@ -124,7 +124,7 @@ Terminal 1
 
 Terminal 2
 └── React / Vite
-    localhost:5173
+    localhost:5174
 ```
 
 ---

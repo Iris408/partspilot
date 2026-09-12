@@ -91,7 +91,7 @@ npm run dev
 
 | Service | URL |
 | --- | --- |
-| Frontend | `http://localhost:5173` |
+| Frontend | `http://localhost:5174` |
 | API | `http://localhost:8001` |
 | Swagger | `http://localhost:8001/docs` |
 
