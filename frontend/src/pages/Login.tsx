@@ -126,15 +126,15 @@ function Login({ onLogin }: LoginProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa] lg:grid lg:h-screen lg:grid-rows-[1fr_auto] lg:overflow-hidden">
-      <div className="min-h-0 md:grid md:grid-cols-1 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)]">
+    <div className="min-h-screen bg-[#f4f6fa] xl:grid xl:h-screen xl:grid-rows-[1fr_auto] xl:overflow-hidden">
+      <div className="min-h-0 xl:grid xl:grid-cols-[minmax(0,40%)_minmax(0,60%)]">
 
         {/* =========================================
         EN: Left login panel
         JP: 左側ログインパネル
         ========================================= */}
-        <section className="flex min-h-screen min-w-0 flex-col bg-gradient-to-b from-[#3B3F4A] to-[#74625D] px-5 py-6 sm:px-8 md:min-h-0 md:py-10 lg:h-full lg:px-10 lg:py-5">
-          <div className="flex flex-1 items-start justify-center pt-3 lg:pt-5">
+        <section className="flex min-h-screen min-w-0 flex-col bg-gradient-to-b from-[#3B3F4A] to-[#74625D] px-5 py-6 sm:px-8 sm:py-8 xl:min-h-0 xl:h-full xl:px-10 xl:py-5">
+          <div className="flex flex-1 items-center justify-center py-6 xl:items-start xl:py-0 xl:pt-5">
             <div className="animate-fade-up w-full max-w-md">
 
               {/* Brand */}
@@ -278,10 +278,8 @@ function Login({ onLogin }: LoginProps) {
         EN: Right dashboard preview
         JP: 右側ダッシュボードプレビュー
         ========================================= */}
-        <section className="relative hidden min-w-0 overflow-hidden bg-[#eaf0f7] px-5 py-8 md:flex md:flex-col md:px-8 lg:h-full lg:px-8 lg:py-5">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(37,99,235,0.16),_transparent_42%)]" />
-
-          <div className="relative flex flex-1 items-center justify-center overflow-hidden">
+        <section className="relative hidden min-w-0 overflow-x-hidden overflow-y-auto bg-[#eaf0f7] px-8 py-6 xl:flex xl:flex-col">
+          <div className="relative flex flex-1 items-center justify-center py-4">
             <div className="animate-fade-left min-w-0 w-full max-w-4xl">
 
               {/* Intro */}
