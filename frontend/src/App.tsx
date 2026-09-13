@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { Navigate, Route, Routes } from "react-router-dom"
+import { TOKEN_STORAGE_KEY } from "./constants/auth"
+import { getTokenRole } from "./services/auth"
 
 import AppLayout from "./components/layout/AppLayout"
 
@@ -14,11 +16,15 @@ import Suppliers from "./pages/Suppliers"
 
 function App() {
   const [token, setToken] = useState<string | null>(() =>
-    localStorage.getItem("TOKEN_STORAGE_KEY")
+    localStorage.getItem(TOKEN_STORAGE_KEY)
   )
 
+  const isDemo = token
+    ? getTokenRole(token) === "demo"
+    : false
+
   function logout() {
-    localStorage.removeItem("TOKEN_STORAGE_KEY")
+    localStorage.removeItem(TOKEN_STORAGE_KEY)
     setToken(null)
   }
 
@@ -61,7 +67,10 @@ function App() {
       <Route
         element={
           token ? (
-            <AppLayout onLogout={logout} />
+            <AppLayout 
+              onLogout={logout}
+              isDemo={isDemo}
+            />
           ) : (
             <Navigate
               to="/login"

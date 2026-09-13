@@ -9,8 +9,15 @@ import type {
   Item,
   NewItem,
 } from "../types/inventory"
+import { useOutletContext } from "react-router-dom"
+
+type AppOutletContext = {
+  isDemo: boolean
+}
 
 function PartsInventory() {
+  const { isDemo } =
+    useOutletContext<AppOutletContext>()
   const [items, setItems] = useState<Item[]>([])
   const [totalItems, setTotalItems] = useState(0)
 
@@ -371,7 +378,17 @@ function PartsInventory() {
             setShowForm((current) => !current)
           }
           aria-expanded={showForm}
-          className="rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+          disabled={isDemo}
+          title={
+            isDemo
+              ? "Disable in public demo"
+              : undefined
+          }
+          className={`rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 ${
+            isDemo
+              ? "cursor-not-allowed opacity-50"
+              : ""
+          }`}
         >
           {showForm
             ? "Cancel"
@@ -551,7 +568,17 @@ function PartsInventory() {
           <button
             type="button"
             onClick={addItem}
-            className="mt-5 rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+            disabled={isDemo}
+            title={
+              isDemo
+                ? "Disabled in public demo"
+                : undefined
+            }
+            className={`mt-5 rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 ${
+              isDemo
+                ? "cursor-not-allowed opacity-50"
+                : ""
+            }`}
           >
             Save item
           </button>
@@ -675,7 +702,13 @@ function PartsInventory() {
             <button
               type="button"
               onClick={updateItem}
-              className="rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white hover:bg-violet-700"
+              disabled={isDemo}
+              title={isDemo ? "Disabled in public demo" : undefined}
+              className={`rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white hover:bg-violet-700 ${
+                isDemo
+                  ? "cursor-not-allowed opacity-50"
+                  : ""
+              }`}
             >
               Save changes
             </button>
@@ -930,7 +963,17 @@ function PartsInventory() {
                   <button
                     type="button"
                     onClick={() => handleEdit(item)}
-                    className="flex-1 rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-semibold text-slate-700"
+                    disabled={isDemo}
+                    title={
+                      isDemo
+                        ? "Disabled in public demo"
+                        : undefined
+                    }
+                    className={`flex-1 rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-semibold text-slate-700 ${
+                      isDemo
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
                   >
                     Edit
                   </button>
@@ -938,7 +981,17 @@ function PartsInventory() {
                   <button
                     type="button"
                     onClick={() => setDeleteTarget(item)}
-                    className="flex-1 rounded-xl border border-red-200 px-3 py-2.5 text-sm font-semibold text-red-600"
+                    disabled={isDemo}
+                    title={
+                      isDemo
+                        ? "Disabled in public demo"
+                        : undefined
+                    }
+                    className={`flex-1 rounded-xl border border-red-200 px-3 py-2.5 text-sm font-semibold text-red-600 ${
+                      isDemo
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
                   >
                     Delete
                   </button>
@@ -1089,19 +1142,35 @@ function PartsInventory() {
                         <button
                           type="button"
                           onClick={() => handleEdit(item)}
-                          aria-label={`Edit ${item.name}`}
-                          className="rounded-lg px-2.5 py-2 text-sm font-semibold text-violet-600 transition hover:bg-violet-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                          disabled={isDemo}
+                          title={
+                            isDemo
+                              ? "Disabled in public demo"
+                              : undefined
+                          }
+                          className={`flex-1 rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-semibold text-slate-700 ${
+                            isDemo
+                              ? "cursor-not-allowed opacity-50"
+                              : ""
+                          }`}
                         >
                           Edit
                         </button>
 
                         <button
                           type="button"
-                          onClick={() =>
-                            setDeleteTarget(item)
+                          onClick={() => setDeleteTarget(item)}
+                          disabled={isDemo}
+                          title={
+                            isDemo
+                              ? "Disabled in public demo"
+                              : undefined
                           }
-                          aria-label={`Delete ${item.name}`}
-                          className="rounded-lg px-2.5 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                          className={`flex-1 rounded-xl border border-red-200 px-3 py-2.5 text-sm font-semibold text-red-600 ${
+                            isDemo
+                              ? "cursor-not-allowed opacity-50"
+                              : ""
+                          }`}
                         >
                           Delete
                         </button>

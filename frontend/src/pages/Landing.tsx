@@ -3,6 +3,7 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom"
+import { TOKEN_STORAGE_KEY } from "../constants/auth"
 
 import {
   authenticate,
@@ -184,7 +185,7 @@ export default function Landing({
       )
 
       localStorage.setItem(
-        "TOKEN_STORAGE_KEY",
+        TOKEN_STORAGE_KEY,
         accessToken
       )
 

@@ -1,10 +1,23 @@
 import { useEffect, useState } from "react"
+import { useOutletContext } from "react-router-dom"
 
 import { createSupplier, deleteSupplier, fetchSuppliers, updateSupplier } from "../services/suppliers"
 
 import type { Supplier } from "../types/supplier"
 
+type AppOutletContext = {
+  isDemo: boolean
+}
+
 function Suppliers() {
+  // =========================================
+  // EN: Read demo mode from the app layout
+  // JP: アプリレイアウトからデモモードを取得
+  // =========================================
+
+  const { isDemo } =
+    useOutletContext<AppOutletContext>()
+
   const [suppliers, setSuppliers] = useState<Supplier[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -238,7 +251,17 @@ function Suppliers() {
         <button
           type="button"
           onClick={handleAddSupplierClick}
-          className="rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700"
+          disabled={isDemo}
+          title={
+            isDemo
+              ? "Disabled in public demo"
+              : undefined
+          }
+          className={`rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700 ${
+            isDemo
+            ? "cursor-not-allowed opacity-50"
+            : ""
+          }`}
         >
           {showAddForm ? "Cancel" : "Add supplier"}
         </button>
@@ -453,7 +476,12 @@ function Suppliers() {
             <div className="flex justify-end sm:col-span-2">
               <button
                 type="submit"
-                disabled={submitting}
+                disabled={submitting || isDemo}
+                title={
+                  isDemo
+                    ? "Disabled in public demo"
+                    : undefined
+                }
                 className="rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting
@@ -709,7 +737,7 @@ function Suppliers() {
                 </div>
 
                 {/* Contact */}
-                <div className="text-smt">
+                <div className="text-sm">
                   <p className="font-medium text-slate-700">
                     {supplier.contact_name ||
                       "No contact name"}
@@ -750,7 +778,17 @@ function Suppliers() {
                     onClick={() =>
                       handleEditSupplier(supplier)
                     }
-                    className="px-3 py-1.5 font-semibold text-slate-700 transition hover:text-violet-700"
+                    disabled={isDemo}
+                    title={
+                      isDemo
+                        ? "Disabled in public demo"
+                        : undefined
+                    }
+                    className={`px-3 py-1.5 font-semibold text-slate-700 transition hover:text-violet-700 ${
+                      isDemo
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
                   >
                     Edit
                   </button>
@@ -760,7 +798,17 @@ function Suppliers() {
                     onClick={() =>
                       setSupplierToDelete(supplier)
                     }
-                    className="px-3 py-1.5 font-semibold text-slate-500 transition hover:text-red-600"
+                    disabled={isDemo}
+                    title={
+                      isDemo
+                        ? "Disabled in public demo"
+                        : undefined
+                    }
+                    className={`px-3 py-1.5 font-semibold text-slate-500 transition hover:text-red-600 ${
+                      isDemo
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
                   >
                     Delete
                   </button>
@@ -824,9 +872,14 @@ function Suppliers() {
 
               <button
                 type="button"
-                disabled={deleting}
                 onClick={handleDeleteSupplier}
-                className="rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={isDemo || deleting}
+                title={
+                  isDemo
+                    ? "Disabled in public demo"
+                    : undefined
+                }
+                className="rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {deleting
                   ? "Deleting..."

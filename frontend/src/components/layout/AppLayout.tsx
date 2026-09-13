@@ -5,9 +5,10 @@ import Sidebar from "./Sidebar"
 
 type AppLayoutProps = {
   onLogout: () => void
+  isDemo: boolean
 }
 
-function AppLayout({ onLogout }: AppLayoutProps) {
+function AppLayout({ onLogout, isDemo }: AppLayoutProps) {
   return (
     <div className="min-h-screen bg-[#f4f6fa] text-slate-900 lg:flex">
       {/* Keyboard users can bypass repeated navigation */}
@@ -52,8 +53,25 @@ function AppLayout({ onLogout }: AppLayoutProps) {
           aria-label="PartsPilot application content"
           className="min-w-0 px-4 pb-24 pt-5 sm:px-6 lg:px-8 lg:pb-8 lg:pt-7 xl:px-10"
         >
+          {isDemo && (
+            <div
+              role="status"
+              className="mx-auto mb-5 w-full max-w-[1600px] rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-950"
+            >
+              <span className="font-semibold">
+                Demo mode
+              </span>
+
+              <span className="ml-1">
+                — Inventory is read-only. You can explore
+                the dashboard, reports, inventory and
+                suppliers, but changes are disabled.
+              </span>
+            </div>
+          )}
+
           <div className="mx-auto w-full max-w-[1600px]">
-            <Outlet />
+            <Outlet context={{ isDemo }}/>
           </div>
         </main>
       </div>

@@ -1,3 +1,5 @@
+import { TOKEN_STORAGE_KEY } from "../constants/auth"
+
 const API_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:8001"
 ).replace(/\/+$/, "")
@@ -5,7 +7,7 @@ const API_URL = (
 export const LOGIN_URL = `${API_URL}/auth/login`
 
 export function getAuthHeaders(): HeadersInit {
-  const storedToken = localStorage.getItem("TOKEN_STORAGE_KEY")
+  const storedToken = localStorage.getItem(TOKEN_STORAGE_KEY)
 
   if (!storedToken) {
     throw new Error("Authentication token is missing")
@@ -30,7 +32,7 @@ export async function apiFetch(
   })
 
   if (response.status === 401) {
-    localStorage.removeItem("TOKEN_STORAGE_KEY")
+    localStorage.removeItem(TOKEN_STORAGE_KEY)
     throw new Error("Unauthorized")
   }
 

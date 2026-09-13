@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { TOKEN_STORAGE_KEY } from "../constants/auth"
 
 import LoginFooter from "../components/LoginFooter"
 import { authenticate } from "../services/auth"
@@ -103,7 +104,7 @@ function Login({ onLogin }: LoginProps) {
       )
 
       localStorage.setItem(
-        "TOKEN_STORAGE_KEY",
+        TOKEN_STORAGE_KEY,
         accessToken
       )
 
