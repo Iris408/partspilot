@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard"
 import Inventory from "./pages/Inventory"
 import Landing from "./pages/Landing"
 import Login from "./pages/Login"
+import NotFound from "./pages/NotFound"
 import Register from "./pages/Register"
 import Reports from "./pages/Reports"
 import Settings from "./pages/Settings"
@@ -106,17 +107,14 @@ function App() {
       </Route>
 
       {/* =========================================
-      EN: Unknown routes return to public landing page
-      JP: 不明なルートは公開トップページへ戻す
+      EN: Unknown routes display the 404 page
+      JP: 不明なルートは404ページを表示
       ========================================= */}
 
       <Route
         path="*"
         element={
-          <Navigate
-            to="/"
-            replace
-          />
+          <NotFound isAuthenticated={Boolean(token)} />
         }
       />
     </Routes>
