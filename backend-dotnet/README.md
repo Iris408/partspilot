@@ -78,3 +78,51 @@ The first goal is to rebuild the backend in small, explainable slices before con
 - Add initial inventory endpoints
 - Add Docker support
 - Add GitHub Actions CI
+
+## Local Database Notes
+
+The v3 backend uses PostgreSQL through the existing PartsPilot Docker Compose database service.
+
+Check the exposed database port:
+
+```bash
+docker compose port db 5432
+```
+
+Use the returned host port in `appsettings.Development.json`.
+
+Example:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5436;Database=partspilot_v3_dev;Username=inventory_user;Password=inventory_password"
+  }
+}
+```
+
+If EF Core migrations fail with:
+
+```txt
+permission denied for schema public
+```
+
+check that the app is connecting to the Docker PostgreSQL port rather than another local PostgreSQL instance.
+
+Apply migrations from the `backend-dotnet` folder:
+
+```bash
+dotnet ef database update
+```
+
+Seed development data:
+
+```bash
+curl -X POST http://localhost:5078/dev/seed-items
+```
+
+Read inventory items:
+
+```bash
+curl http://localhost:5078/items
+```
