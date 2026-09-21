@@ -24,7 +24,7 @@ Live production demo: https://www.partspilot.uk
 
 ## v3 Direction
 
-PartsPilot v2 will introduce:
+PartsPilot v3 will introduce:
 
 - ASP.NET Core Web API backend
 - EF Core data access
@@ -38,7 +38,7 @@ PartsPilot v2 will introduce:
 
 ## Version Plan
 
-### v2.1.0 — .NET Backend Foundation
+### v3.0.0 — .NET Backend Foundation
 
 - Create ASP.NET Core Web API project
 - Add health check endpoint
@@ -51,7 +51,7 @@ PartsPilot v2 will introduce:
 - Add GitHub Actions build/test workflow
 - Document local setup
 
-### v2.2.0 — Frontend Integration
+### v3.1.0 — Frontend Integration
 
 - Connect existing React/TypeScript frontend to .NET API
 - Update environment variables
@@ -60,7 +60,7 @@ PartsPilot v2 will introduce:
 - Confirm create/update/delete flows
 - Document API differences from v1
 
-### v2.3.0 — Deployment Pipeline
+### v3.2.0 — Deployment Pipeline
 
 - Deploy .NET backend
 - Configure production database
@@ -69,14 +69,14 @@ PartsPilot v2 will introduce:
 - Add rollback notes
 - Confirm live demo stability
 
-### v2.4.0 — Infrastructure Foundations
+### v3.3.0 — Infrastructure Foundations
 
 - Add Terraform notes or starter configuration
 - Document cloud resources
 - Define staging/production environment approach
 - Add infrastructure decision record
 
-### v2.5.0 — Kubernetes Practice
+### v3.4.0 — Kubernetes Practice
 
 - Add local Kubernetes manifests
 - Add Deployment, Service, ConfigMap and Secret examples
@@ -85,7 +85,7 @@ PartsPilot v2 will introduce:
 
 ## Definition of Done
 
-A PartsPilot v2.5 milestone is complete when:
+A PartsPilot v3 milestone is complete when:
 
 - The app runs locally
 - The README is updated
