@@ -3,6 +3,7 @@ using backend_dotnet.Models;
 using backend_dotnet.Services;
 using System.Text.Json;
 using backend_dotnet.Data;
+using backend_dotnet.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +51,16 @@ app.MapGet("/items/sample", () =>
     };
 
     return Results.Ok(InventoryItemMapper.ToResponseDto(item));
+});
+
+app.MapGet("/items", async (AppDbContext db) =>
+{
+    var items = await db.InventoryItems
+        .OrderBy(item => item.Id)
+        .Select(item => InventoryItemMapper.ToResponseDto(item))
+        .ToListAsync();
+
+    return Results.Ok(items);
 });
 
 app.Run();
