@@ -46,3 +46,6 @@ partspilot_suppliers_export.json
 # .NET build outputs
 bin/
 obj/
+# .NET build outputs
+bin/
+obj/
