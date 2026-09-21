@@ -24,8 +24,9 @@ The goal is to improve job-fit, backend architecture, CI/CD practice and deploym
 - Docker Compose
 - GitHub Actions CI/CD
 - Vercel frontend deployment
-- Railway / Render backend deployment
-- Terraform and Kubernetes in later v3.x milestones
+- Railway or Render backend deployment
+- Terraform in later v3.x milestones
+- Kubernetes in later v3.x milestones
 
 ## Migration Rules
 
@@ -35,12 +36,14 @@ The goal is to improve job-fit, backend architecture, CI/CD practice and deploym
 - Match existing frontend behaviour before adding new features
 - Document API differences between v2 and v3
 - Keep commits small and explainable
+- Capture bugs, fixes and learning notes in session recaps
 
 ## First Migration Slice
 
+The first v3 slice should prove that the new backend can run independently before any database or frontend integration work begins.
+
 - Create ASP.NET Core backend project
 - Add health endpoint
-- Add inventory item model
-- Add database context
-- Add first read-only inventory endpoint
-- Confirm response shape matches what the frontend expects
+- Run locally
+- Confirm response shape
+- Commit the backend foundation
