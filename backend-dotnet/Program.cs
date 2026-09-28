@@ -1,6 +1,7 @@
 using System.Text.Json;
 using backend_dotnet.Models;
 using backend_dotnet.Services;
+using backend_dotnet.Dtos;
 using backend_dotnet.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -134,6 +135,107 @@ app.MapGet("/items/{id:int}", async (int id, AppDbContext db) =>
             message = $"Inventory item with id {id} was not found."
         });
     }
+
+    return Results.Ok(InventoryItemMapper.ToResponseDto(item));
+});
+
+app.MapPost("/items", async (InventoryItemCreateDto request, AppDbContext db) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Name) ||
+        string.IsNullOrWhiteSpace(request.Sku) ||
+        string.IsNullOrWhiteSpace(request.Category) ||
+        request.Quantity < 0 ||
+        request.MinThreshold < 0 ||
+        request.Price < 0)
+    {
+        return Results.BadRequest(new
+        {
+            message = "Provide a name, SKU, and category. Quantity, minimum threshold, and price must be zero or greater."
+        });
+    }
+
+    var skuExists = await db.InventoryItems
+        .AnyAsync(item => item.Sku == request.Sku);
+
+    if (skuExists)
+    {
+        return Results.Conflict(new
+        {
+            message = "An inventory item with this SKU already exists."
+        });
+    }
+
+    var now = DateTime.UtcNow;
+
+    var item = new InventoryItem
+    {
+        Name = request.Name.Trim(),
+        Sku = request.Sku.Trim(),
+        Category = request.Category.Trim(),
+        Quantity = request.Quantity,
+        MinThreshold = request.MinThreshold,
+        Price = request.Price,
+        CreatedAt = now,
+        UpdatedAt = now
+    };
+
+    db.InventoryItems.Add(item);
+    await db.SaveChangesAsync();
+
+    return Results.Created(
+        $"/items/{item.Id}",
+        InventoryItemMapper.ToResponseDto(item)
+    );
+});
+
+app.MapPut("/items/{id:int}", async (
+    int id,
+    InventoryItemCreateDto request,
+    AppDbContext db) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Name) ||
+        string.IsNullOrWhiteSpace(request.Sku) ||
+        string.IsNullOrWhiteSpace(request.Category) ||
+        request.Quantity < 0 ||
+        request.MinThreshold < 0 ||
+        request.Price < 0)
+    {
+        return Results.BadRequest(new
+        {
+            message = "Provide a name, SKU, and category. Quantity, minimum threshold, and price must be zero or greater."
+        });
+    }
+
+    var item = await db.InventoryItems.FindAsync(id);
+
+    if (item is null)
+    {
+        return Results.NotFound(new
+        {
+            message = $"Inventory item with id {id} was not found."
+        });
+    }
+
+    var skuExists = await db.InventoryItems
+        .AnyAsync(existing => existing.Sku == request.Sku && existing.Id != id);
+
+    if (skuExists)
+    {
+        return Results.Conflict(new
+        {
+            message = "An inventory item with this SKU already exists."
+        });
+    }
+
+    item.Name = request.Name.Trim();
+    item.Sku = request.Sku.Trim();
+    item.Category = request.Category.Trim();
+    item.Quantity = request.Quantity;
+    item.MinThreshold = request.MinThreshold;
+    item.Price = request.Price;
+    item.UpdatedAt = DateTime.UtcNow;
+
+    await db.SaveChangesAsync();
 
     return Results.Ok(InventoryItemMapper.ToResponseDto(item));
 });
