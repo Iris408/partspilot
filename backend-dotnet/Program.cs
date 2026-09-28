@@ -123,4 +123,19 @@ app.MapPost("/dev/seed-items", async (AppDbContext db) =>
     return Results.Created("/items", response);
 });
 
+app.MapGet("/items/{id:int}", async (int id, AppDbContext db) =>
+{
+    var item = await db.InventoryItems.FindAsync(id);
+
+    if (item is null)
+    {
+        return Results.NotFound(new
+        {
+            message = $"Inventory item with id {id} was not found."
+        });
+    }
+
+    return Results.Ok(InventoryItemMapper.ToResponseDto(item));
+});
+
 app.Run();
