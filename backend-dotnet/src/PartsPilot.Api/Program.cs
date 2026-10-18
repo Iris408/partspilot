@@ -22,7 +22,12 @@ if (app.Environment.IsDevelopment())
 
 app.MapHealthEndpoints();
 app.MapInventoryEndpoints();
-app.MapDevEndpoints();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapDevEndpoints();
+}
+
 app.MapSupplierEndpoints();
 
 app.Run();
