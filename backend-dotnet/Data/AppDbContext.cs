@@ -10,6 +10,8 @@ public class AppDbContext : DbContext
     {
     }
 
+    public DbSet<Supplier> Suppliers => Set<Supplier>();
+
     public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,6 +61,56 @@ public class AppDbContext : DbContext
             entity.Property(item => item.UpdatedAt)
                 .HasColumnName("updated_at")
                 .IsRequired();
+        });
+
+        modelBuilder.Entity<Supplier>(entity =>
+        {
+            entity.ToTable("suppliers");
+            entity.HasKey(supplier => supplier.Id);
+
+            entity.HasIndex(supplier => supplier.Name);
+
+            entity.Property(supplier => supplier.Name)
+                .HasColumnName("name")
+                .HasMaxLength(150)
+                .IsRequired();
+
+            entity.Property(supplier => supplier.ContactName)
+                .HasColumnName("contact_name")
+                .HasMaxLength(100);
+
+            entity.Property(supplier => supplier.Email)
+                .HasColumnName("email")
+                .HasMaxLength(150);
+
+            entity.Property(supplier => supplier.Phone)
+                .HasColumnName("phone")
+                .HasMaxLength(50);
+
+            entity.Property(supplier => supplier.Website)
+                .HasColumnName("website")
+                .HasMaxLength(255);
+
+            entity.Property(supplier => supplier.Category)
+                .HasColumnName("category")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            entity.Property(supplier => supplier.Status)
+                .HasColumnName("status")
+                .HasMaxLength(50)
+                .HasDefaultValue("Active")
+                .IsRequired();
+
+            entity.Property(supplier => supplier.Notes)
+                .HasColumnName("notes")
+                .HasColumnType("text");
+
+            entity.Property(supplier => supplier.CreatedAt)
+                .HasColumnName("created_at");
+
+            entity.Property(supplier => supplier.UpdatedAt)
+                .HasColumnName("updated_at");
         });
     }
 }
