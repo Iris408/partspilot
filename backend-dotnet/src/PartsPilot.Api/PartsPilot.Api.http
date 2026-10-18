@@ -1,0 +1,6 @@
+@PartsPilot_Api_HostAddress = http://localhost:5078
+
+GET {{PartsPilot_Api_HostAddress}}/health
+Accept: application/json
+
+###

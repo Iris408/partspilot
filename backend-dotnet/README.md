@@ -36,7 +36,7 @@ Not implemented yet:
 From this folder:
 
 ```bash
-dotnet run
+dotnet run --project src/PartsPilot.Api
 ```
 
 The app will print the local URL in the terminal.
@@ -112,7 +112,9 @@ check that the app is connecting to the Docker PostgreSQL port rather than anoth
 Apply migrations from the `backend-dotnet` folder:
 
 ```bash
-dotnet ef database update
+dotnet ef database update \
+  --project src/PartsPilot.Infrastructure \
+  --startup-project src/PartsPilot.Api
 ```
 
 Seed development data:
@@ -125,4 +127,47 @@ Read inventory items:
 
 ```bash
 curl http://localhost:5078/items
+```
+
+## Project Structure
+
+```txt
+backend-dotnet/
+  PartsPilot.slnx
+  Directory.Build.props
+  src/
+    PartsPilot.Api/             ASP.NET Core host, endpoints, configuration
+    PartsPilot.Application/     DTOs and mapping
+    PartsPilot.Domain/          Entities and domain rules
+    PartsPilot.Infrastructure/  EF Core DbContext, migrations, PostgreSQL
+  tests/
+    PartsPilot.UnitTests/
+    PartsPilot.IntegrationTests/
+    PartsPilot.ArchitectureTests/
+```
+
+Dependency rules (enforced by `PartsPilot.ArchitectureTests`):
+
+- Domain has no dependency on Application, Infrastructure, ASP.NET Core, EF Core, Npgsql or AWS.
+- Application may reference Domain only. It does not reference Infrastructure, EF Core or ASP.NET Core.
+- Infrastructure may reference Application and Domain.
+- Api may reference Application and Infrastructure.
+
+## Tests
+
+From this folder:
+
+```bash
+dotnet test
+```
+
+Integration tests start a PostgreSQL container with Testcontainers, so Docker must be running.
+
+Add a new migration:
+
+```bash
+dotnet ef migrations add <Name> \
+  --project src/PartsPilot.Infrastructure \
+  --startup-project src/PartsPilot.Api \
+  --output-dir Persistence/Migrations
 ```
