@@ -12,7 +12,7 @@ public class HealthAndOpenApiTests(ApiFixture fixture) : ApiTestBase(fixture)
         var response = await Client.GetAsync("/health");
 
         await AssertJsonAsync(response, HttpStatusCode.OK,
-            """{"status":"ok","service":"partspilot-api","version":"v3.0.0"}""");
+            """{"status":"ok","service":"partspilot-api","version":"3.0.0"}""");
     }
 
     [Fact]

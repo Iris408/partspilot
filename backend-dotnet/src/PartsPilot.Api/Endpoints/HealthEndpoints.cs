@@ -9,7 +9,7 @@ public static class HealthEndpoints
         {
             status = "ok",
             service = "partspilot-api",
-            version = "v3.0.0"
+            version = "3.0.0"
         }));
 
         return app;

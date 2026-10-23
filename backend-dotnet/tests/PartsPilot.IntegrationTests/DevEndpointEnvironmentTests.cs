@@ -54,7 +54,7 @@ public class DevEndpointEnvironmentTests(ApiFixture fixture) : ApiTestBase(fixtu
         using var client = factory.CreateClient();
 
         await AssertJsonAsync(await client.GetAsync("/health"), HttpStatusCode.OK,
-            """{"status":"ok","service":"partspilot-api","version":"v3.0.0"}""");
+            """{"status":"ok","service":"partspilot-api","version":"3.0.0"}""");
     }
 
     private WebApplicationFactory<Program> CreateFactory(string environment) =>
