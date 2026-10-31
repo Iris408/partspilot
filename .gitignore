@@ -42,3 +42,10 @@ CONTAINER_ISSUE_RECAP.md
 partspilot_inventory_export.json
 backend/database/snapshots/
 partspilot_suppliers_export.json
+
+# .NET build outputs
+bin/
+obj/
+# .NET build outputs
+bin/
+obj/

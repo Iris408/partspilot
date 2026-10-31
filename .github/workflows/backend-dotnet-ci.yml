@@ -1,0 +1,78 @@
+name: Backend .NET CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "backend-dotnet/**"
+      - ".github/workflows/backend-dotnet-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "backend-dotnet/**"
+      - ".github/workflows/backend-dotnet-ci.yml"
+  workflow_dispatch:
+
+jobs:
+  backend-dotnet-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: backend-dotnet
+
+    steps:
+      # EN: Check out the repository code
+      # JP: リポジトリのコードを取得します
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # EN: Set up the .NET 10 SDK
+      # JP: .NET 10 SDKを設定します
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.0.x"
+
+      # EN: Show the SDK and runtime versions used by this run
+      # JP: この実行で使用するSDKとランタイムのバージョンを表示します
+      - name: Show .NET info
+        run: dotnet --info
+
+      # EN: Restore NuGet packages
+      # JP: NuGetパッケージを復元します
+      - name: Restore dependencies
+        run: dotnet restore PartsPilot.slnx
+
+      # EN: Build the solution
+      # JP: ソリューションをビルドします
+      - name: Build
+        run: dotnet build PartsPilot.slnx --no-restore
+
+      # EN: Run unit, integration and architecture tests (integration tests start PostgreSQL with Testcontainers)
+      # JP: 単体・統合・アーキテクチャテストを実行します（統合テストはTestcontainersでPostgreSQLを起動します）
+      - name: Run tests
+        run: dotnet test PartsPilot.slnx --no-build
+
+      # EN: Fail if any direct or transitive package has a known vulnerability
+      # JP: 直接または推移的なパッケージに既知の脆弱性がある場合は失敗させます
+      - name: Check for vulnerable packages
+        run: |
+          dotnet package list \
+            --project PartsPilot.slnx \
+            --vulnerable \
+            --include-transitive \
+            --format json \
+            --output-version 1 > vulnerable-packages.json
+
+          cat vulnerable-packages.json
+
+          jq -e '(.projects | length) > 0 and ([.. | objects | .vulnerabilities? // empty | .[]] | length == 0)' \
+            vulnerable-packages.json > /dev/null \
+            || { echo "::error::Vulnerable NuGet packages found (see JSON above)."; exit 1; }
